@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Anushree 🎂</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb);
+    overflow-x:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px 0;
+}
+
+.container{
+    width:90%;
+    max-width:700px;
+    background:rgba(255,255,255,0.2);
+    backdrop-filter:blur(10px);
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    color:white;
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+    z-index:10;
+    position:relative;
+    margin:20px 0;
+}
+
+h1{
+    font-size:40px;
+    margin-bottom:15px;
+    text-shadow:0 2px 4px rgba(0,0,0,0.2);
+}
+
+h2{
+    color:#fff8dc;
+    margin-bottom:20px;
+}
+
+p{
+    font-size:20px;
+    line-height:1.8;
+}
+
+button{
+    margin-top:25px;
+    padding:12px 30px;
+    border:none;
+    border-radius:30px;
+    background:white;
+    color:#ff4d6d;
+    font-size:18px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.3s;
+}
+
+button:hover{
+    transform:scale(1.08);
+    box-shadow:0 5px 15px rgba(255,77,109,0.4);
+}
+
+#message{
+    display:none;
+    margin-top:20px;
+    font-size:22px;
+    color:#fff;
+    animation:fadeIn 2s;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+.balloon{
+    position:absolute;
+    bottom:-150px;
+    width:60px;
+    animation:float 10s linear infinite;
+    z-index:1;
+    will-change:transform;
+}
+
+.balloon:nth-child(2) { filter: hue-rotate(60deg); }
+.balloon:nth-child(3) { filter: hue-rotate(120deg); }
+.balloon:nth-child(4) { filter: hue-rotate(200deg); }
+
+@keyframes float{
+    0%{ transform:translateY(0) rotate(0deg); }
+    100%{ transform:translateY(-120vh) rotate(360deg); }
+}
+
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    pointer-events:none;
+    z-index:5;
+}
+
+@media (max-width: 480px) {
+    h1 { font-size: 32px; }
+    p { font-size: 18px; }
+    #message { font-size: 20px; }
+   .container { padding: 20px; }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<img src="https://cdn-icons-png.flaticon.com/512/3468/3468377.png" class="balloon" style="left:10%; animation-duration:8s;">
+<img src="https://cdn-icons-png.flaticon.com/512/3468/3468377.png" class="balloon" style="left:40%; animation-duration:10s;">
+<img src="https://cdn-icons-png.flaticon.com/512/3468/3468377.png" class="balloon" style="left:70%; animation-duration:9s;">
+<img src="https://cdn-icons-png.flaticon.com/512/3468/3468377.png" class="balloon" style="left:90%; animation-duration:11s;">
+
+<div class="container">
+
+<h1>🎂 Happy Birthday 🎂</h1>
+
+<h2>Dear Anushree ❤️</h2>
+
+<p>
+Today is all about celebrating an amazing person.<br><br>
+
+Thank you, Betee, school ki itni saari beautiful memories ke liye. ❤️<br><br>
+
+Aur itni baar gussa hoke mujhe block karne ke liye bhi thank you. 😂<br><br>
+
+Hamesha apni tabiyat ka dhyan rakhna aur bahar ka junk food kam khana. Jaldi se kuch bada kar aur kabhi mereko bhi proud feel kara.
+</p>
+
+<button onclick="showWish()">Click for a Surprise 🎁</button>
+
+<div id="message">
+🌸 Happy Birthday, Shhurrrii!!!!!!!🌸<br><br>
+
+Hamesha aise hi daant nikalti reh.
+Aur life me kuch bada kar kabhi mereko bhi proud feel kara.<br><br>
+
+Thank you for being my best friend.
+May God bless you with happiness, success, and endless joy.<br><br>
+
+❤️ Once again, Happy Birthday Beteeeee! ❤️
+</div>
+
+</div>
+
+<script>
+let confettiStarted = false;
+
+function showWish(){
+    document.getElementById("message").style.display="block";
+    if(!confettiStarted){
+        startConfetti();
+        confettiStarted = true;
+    }
+}
+
+const canvas=document.getElementById("confetti");
+const ctx=canvas.getContext("2d");
+
+function resizeCanvas(){
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+}
+
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+let pieces=[];
+let animationId;
+
+function startConfetti(){
+    pieces = [];
+    for(let i=0;i<250;i++){
+        pieces.push({
+            x:Math.random()*canvas.width,
+            y:Math.random()*canvas.height-canvas.height,
+            r:Math.random()*6+2,
+            d:Math.random()*250,
+            color:`hsl(${Math.random()*360},100%,50%)`,
+            tilt:Math.random()*10,
+            speed: Math.random()*3+2
+        });
+    }
+    if(!animationId) animate();
+}
+
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    
+    pieces.forEach((p,i)=>{
+        ctx.beginPath();
+        ctx.fillStyle=p.color;
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fill();
+        
+        p.y += p.speed;
+        p.x += Math.sin(p.d) * 0.5;
+        p.d += 0.02;
+        
+        if(p.y>canvas.height){
+            pieces[i].y=-10;
+            pieces[i].x=Math.random()*canvas.width;
+        }
+    });
+    
+    animationId = requestAnimationFrame(animate);
+}
+</script>
+
+</body>
+</html>
